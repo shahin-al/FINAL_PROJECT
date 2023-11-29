@@ -1,4 +1,4 @@
-import re
+
 board = [   ['\033[35;1m  ','\u0332A','\u0332B','\u0332C','\u0332D','\u0332E','\u0332F','\u0332G','\u0332H\033[0m'],
             ['8|','r','n','b','q','k','b','n','r','|8'],
             ['7|','p','p','p','p','p','p','p','p','|7'],
@@ -30,51 +30,55 @@ def clearb():
             ['2|','P','P','P','P','P','P','P','P','|7'],
             ['1|','R','N','B','Q','K','B','N','R','|8'],
             ['\033[34;1m  ','\u0305A','\u0305B','\u0305C','\u0305D','\u0305E','\u0305F','\u0305G','\u0305H\033[0m']]
-def movew(a):
-    a=str(a)
+    
+def movew():
+    a=input('White Taking figure coordinate: ')
     for x in coordinatesX:
         if x ==a.upper()[0]:
             colw=coordinatesX[x]
             roww=int(a[1])
             roww=coordinatesY[roww]
-            
-    for y in coordinatesX:
-        if y ==a.upper()[2]:
-            colw1=coordinatesX[y]
-            roww1=int(a[3])
-            roww1=coordinatesY[roww1]
-   
+
     figw=board[roww].pop(colw)
+   
+    b=input('White Placing coordinates: ')
+    for y in coordinatesX:
+        if y ==b.upper()[0]:
+            colw1=coordinatesX[y]
+            roww1=int(b[1])
+            roww1=coordinatesY[roww1]
     board[roww].insert(colw,'□')
     board[roww1][colw1]=figw
     show_board()
 
-def moveb(b):
-    b=str(b)
-    for x in coordinatesX:
-        if x ==b.upper()[0]:
-            colb=coordinatesX[x]
-            rowb=int(b[1])
-            rowb=coordinatesY[rowb]
 
-    for y in coordinatesX:
-        if y ==b.upper()[2]:
-            colb1=coordinatesX[y]
-            rowb1=int(b[3])
-            rowb1=coordinatesY[rowb1]
+def moveb():
+    a=input('Black Taking figure coordinate: ')
+
+    for x in coordinatesX:
+        if x ==a.upper()[0]:
+            colb=coordinatesX[x]
+            rowb=int(a[1])
+            rowb=coordinatesY[rowb]
     figb=board[rowb].pop(colb)
+    if figb=='p':
+        if a[1]=='2':
+            pm='possible moves: '+f'{a[0]}{str(int(a[1])-1)}'+' or '+ f'{a[0]}{str(int(a[1])-2)}'    
+            print(pm)
+        else:
+            pm='possible move: '+f'{a[0]}{str(int(a[1])-1)}'
+            print(pm)
+
+    b=input('Black Placing coordinates: ')
+    for y in coordinatesX:
+        if y ==b.upper()[0]:
+            colb1=coordinatesX[y]
+            rowb1=int(b[1])
+            rowb1=coordinatesY[rowb1]
     
     board[rowb].insert(colb,'□')
     board[rowb1][colb1]=figb
     show_board()
 
-a=input('WHITE: insert coord for taking and putting figure: (example:c2c4)')
-movew(a)
-b=input('BLACK: insert coord for taking and putting figure: (example:c2c4)')
-moveb(b)
-def checkmate():
-    if re.search(r'k',board)==False:
-        print('WHITE WIN')
-
-checkmate()
-# comment from Azerin
+movew()
+moveb()
