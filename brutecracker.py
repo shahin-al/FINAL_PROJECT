@@ -4,6 +4,10 @@ import itertools
 import re
 password = getpass.getpass('\033[1m Password: \033[0m')
 
+'''
+TIME COMPLEXITY: O=N^M    #N-size of alphabet     #M-length of password    --->  60^8 = 1,679*10^14
+'''
+
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             '0','1','2','3','4','5','6','7','8','9','_','-','!','$','#','@','.',' ']
@@ -52,16 +56,18 @@ def checking_p(passw):
     if re.search(r'[A-Z]',passw):
         m+=1
         s+=2
+    if re.search(r'[0-9]',passw):
+        s+=2
     if re.search(r'_-!$#@ ' ,passw ):
-        s+=1
-    if re.search(r'123|456|12345|qwerty|abcde|qwerty123|aaa|bbb|ccc|ddd|eee|fff|ggg|hhh|iii|jjj|kkk|lll|mmm|nnn|ooo|rrr|sss|ttt|uuu|qqq|vvv|www|xxx|yyy|zzz', passw):
-        w+=2
-    if alltime<10:
-        w+=1
-    elif alltime<60:
+        s+=2
+    if re.search(r'123|456|12345|qwerty|abcde|qwerty123|ufaz|mama|papa|password|aaa|bbb|ccc|ddd|eee|fff|ggg|hhh|iii|jjj|kkk|lll|mmm|nnn|ooo|rrr|sss|ttt|uuu|qqq|vvv|www|xxx|yyy|zzz|AAA|BBB|CCC|DDD|EEE|FFF|GGG|HHH|III|JJJ|KKK|LLL|MMM|NNN|OOO|RRR|SSS|TTT|UUU|QQQ|VVV|WWW|XXX|YYY|ZZZ', passw):
+        w+=3
+    if alltime<=29:
+        w+=3
+    elif alltime<60 and alltime>29:
         m+=3
     else:
-        s+=1
+        s+=2
     if max(s,m,w)==s:
         print('\033[1;32mPassword strenght: \033[1;37mstrong\033[0m')
     elif max(s,m,w)==m:
