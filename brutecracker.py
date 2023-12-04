@@ -44,7 +44,7 @@ def checking_p(passw):
     m=0
     w=0
     if len(passw)<6:
-        w+=3
+        w+=4
     elif len(passw)<=8:
         m+=1
     else:
@@ -55,11 +55,12 @@ def checking_p(passw):
         s+=1
     if re.search(r'[A-Z]',passw):
         m+=1
-        s+=2
+        s+=1
     if re.search(r'[0-9]',passw):
-        s+=2
+        m+=1
+        s+=1
     if re.search(r'_-!$#@ ' ,passw ):
-        s+=2
+        s+=1
     if re.search(r'123|456|12345|qwerty|abcde|qwerty123|ufaz|mama|papa|password|aaa|bbb|ccc|ddd|eee|fff|ggg|hhh|iii|jjj|kkk|lll|mmm|nnn|ooo|rrr|sss|ttt|uuu|qqq|vvv|www|xxx|yyy|zzz|AAA|BBB|CCC|DDD|EEE|FFF|GGG|HHH|III|JJJ|KKK|LLL|MMM|NNN|OOO|RRR|SSS|TTT|UUU|QQQ|VVV|WWW|XXX|YYY|ZZZ', passw):
         w+=3
     if alltime<=29:
