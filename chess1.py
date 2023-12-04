@@ -1,3 +1,5 @@
+print('\033[1;32;40mHi player, welcome to the CHESS game\nGood luck :)\033[0m\n')
+
 board = [   ['\033[35;1m  ','\u0332A','\u0332B','\u0332C','\u0332D','\u0332E','\u0332F','\u0332G','\u0332H\033[0m'],
             ['8|','r','n','b','q','k','b','n','r','|8'],
             ['7|','p','p','p','p','p','p','p','p','|7'],
@@ -34,7 +36,6 @@ def clear_board():
     
 def movew():
     start = ask_start() # return a list [figure, coordinate]
-
     ask_end(start, True)
     show_board()
 
@@ -45,14 +46,15 @@ def moveb():
 
 
 def ask_start():
-
-    a=input('Taking figure coordinate: ') #c2
+    
     figw = "□"
     while figw == "□":
+        a=input('Taking figure coordinate: ') #c2
         # in case user chooses coordinate bigger than board
         while not((a[0].upper() in ['A','B','C','D','E','F','G','H']) and (int(a[1]) in [1,2,3,4,5,6,7,8]) and len(a)== 2):
+
             print((a[1] in [1,2,3,4,5,6,7,8]))
-            print("this coordinate doesnt exist, try again")
+            print("\033[31;1mthis coordinate doesnt exist, try again\033[0m")
             a=input('Taking figure coordinate: ')
 
         for x in coordinatesX:
@@ -60,11 +62,11 @@ def ask_start():
                 colw=coordinatesX[x]
                 roww=int(a[1])
                 roww=coordinatesY[roww]
-        
-        figw=board[roww].pop(colw)
+    
+        figw = board[roww].pop(colw)
+        # print(figw)
         if figw == "□":
             continue
-        # print(figw)
 
     board[roww].insert(colw,'□') # fill out the cell the piece was taken from
     return [figw,a]
@@ -80,7 +82,7 @@ def ask_end(start, white):
         # in case user chooses coordinate bigger than board
         print(a.upper())
         while not((a[0].upper() in ['A','B','C','D','E','F','G','H']) and (int(a[1]) in [1,2,3,4,5,6,7,8]) and len(a)== 2):
-            print("this coordinate doesnt exist, try again")
+            print("\033[31;1mthis coordinate doesnt exist, try again\033[0m")
             a=input('Placing coordinate: ')
 
         for y in coordinatesX:
@@ -198,7 +200,7 @@ def possible_pawn(coordinate, white):
                 if value == column_index+1:
                     possible.append(str(key)+str(coordinatesY[row+1]))
     # print (possible)
-    return possible
+    return possible #[]
 
 def possible_rook(coordinate, white):
     # up +
@@ -286,10 +288,10 @@ def possible_rook(coordinate, white):
     # right
     column_right = column_index + 1
     while column_right < 9:
-        print("here")
+        # print("here")
         print(column_index)
         for key, value in coordinatesX.items():
-            print("is it")
+            # print("is it")
             if value == column_right:
                 column_right_letter = key # find the coorespoding letter for future
                 print(column_right_letter)
@@ -617,7 +619,7 @@ def possible_king(coordinate, white):
         for key, value in coordinatesX.items():
                 if value == column_index + 1:
                     column_letter = key
-        possible.append(column_letter + str(coordinatesY[row]+1))
+        possible.append(column_letter + str(coordinatesY[row+1]))
     
     # 3
     if column_index+1 <9 and ((board[row][column_index+1] == "□") or (white and board[row][column_index+1].islower()) or (not white and board[row][column_index+1].isupper())):
@@ -684,6 +686,7 @@ def find_king(white, check):
     else:
         return king_coordinate
 
+
 def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
     # lets find the coordinate of the oponent's king
     
@@ -695,15 +698,17 @@ def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
         king_column_index = find_king(white, True)[1]
 
     # pawn attack
-    if king_row_index-1 > 0 and king_column_index +1 < 9 and king_column_index-1 > 0:
+    if king_row_index-1 > 0 and king_column_index +1 < 9 :
         if not white and board[king_row_index-1][king_column_index+1] =="p":
             return True
+    if king_row_index-1 > 0 and king_column_index +1 < 9 and king_column_index-1 > 0:
         if not white and board[king_row_index-1][king_column_index-1] =="p":
             return True
     
-    if king_row_index+1 < 9 and king_column_index +1 < 9 and king_column_index-1 > 0:
+    if king_row_index+1 < 9 and king_column_index +1 < 9:
         if white and board[king_row_index+1][king_column_index+1] =="P":
             return True
+    if king_row_index+1 < 9 and king_column_index - 1 > 0:
         if white and board[king_row_index+1][king_column_index-1] =="P":
             return True
 
@@ -723,7 +728,7 @@ def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
         up -=1
     # down
     down = king_row_index + 1
-    while down > 9:
+    while down < 9:
         if white and (board[down][king_column_index] == 'R' or board[up][king_column_index] == "Q"):
             return True
         if not white and (board[down][king_column_index] == "r" or board[up][king_column_index] == "q"):
@@ -737,9 +742,9 @@ def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
     # left
     left = king_column_index - 1
     while left > 0:
-        if white and (board[down][king_column_index] == 'R' or board[up][king_column_index] == "Q"):
+        if white and (board[king_row_index][left] == 'R' or board[king_row_index][left] == "Q"):
             return True
-        if not white and (board[down][king_column_index] == "r" or board[up][king_column_index] == "q"):
+        if not white and (board[king_row_index][left] == "r" or board[up][left] == "q"):
             return True
         
         if white and board[king_row_index][left].islower():
@@ -749,10 +754,10 @@ def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
         left -=1
     # right
     right = king_column_index + 1
-    while right > 9:
-        if white and (board[down][king_column_index] == 'R' or board[up][king_column_index] == "Q"):
+    while right < 9:
+        if white and (board[king_row_index][right] == 'R' or board[king_row_index][right] == "Q"):
             return True
-        if not white and (board[down][king_column_index] == 'r' or board[up][king_column_index] == "q"):
+        if not white and (board[king_row_index][right] == 'r' or board[king_row_index][right] == "q"):
             return True
         
         if white and board[king_row_index][right].islower():
@@ -868,6 +873,8 @@ def check(white, mate = False,fake_coordinate_x = 0, fake_coordinate_y = 0):
         return True
 
     return False
+
+
 def check_mate(white):
     # for every move of black check sitiation appears
     # we can create a fake board for each situation BUT
@@ -879,11 +886,13 @@ def check_mate(white):
     counter = 0
 
     for i in all:
+        # print(i)
+        row = int(i[1])
         fake_coodinate_y = coordinatesX[i[0].upper()]
-        fake_coodinate_x = coordinatesY[int(i[1])]
+        fake_coodinate_x = coordinatesY[row]
         if check(white, True, fake_coodinate_x, fake_coodinate_y):
             counter += 1
-    if counter >= len(all):
+    if counter == len(all):
         return True
     
     return False
@@ -891,36 +900,31 @@ def check_mate(white):
 
 
 def game():
-    print("Hello to out game")
-    
     while True:
         show_board()
-        print("white's move")
+        print("\033[34;1mwhite's move\033[0m")
         movew()
         if check(True):
-            print("Check")
+            print("\033[31;1mCheck\033[0m")
             if check_mate(True):
-                print("game over")
+                print("\033[31;1mgame over\033[0m")
                 return True
         
-        print("black's move")
+        print("\033[35;1mblack's move\033[0m")
         moveb()
         if check(False):
-            print("Check")
+            print("\033[31;1mCheck\033[0m")
             if check_mate(False):
-                print("Game over")
+                print("\033[31;1mGame over\033[0m")
                 return True
-
-    
-
-            
 
 
 while True: # Until user decides not to play again
     game()
     again = input("want to play again?: (Y/N)")
     if again.lower() == 'y':
+        clear_board()
         continue
     else:
-        print("thanks for playing, see you again!!")
+        print("\033[32;1mthanks for playing, see you again!\033[0m")
         break
