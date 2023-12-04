@@ -61,6 +61,7 @@ def checking_p(passw):
         s+=1
     if re.search(r'_-!$#@ ' ,passw ):
         s+=1
+
     if re.search(r'123|456|12345|qwerty|abcde|qwerty123|ufaz|mama|papa|password|aaa|bbb|ccc|ddd|eee|fff|ggg|hhh|iii|jjj|kkk|lll|mmm|nnn|ooo|rrr|sss|ttt|uuu|qqq|vvv|www|xxx|yyy|zzz|AAA|BBB|CCC|DDD|EEE|FFF|GGG|HHH|III|JJJ|KKK|LLL|MMM|NNN|OOO|RRR|SSS|TTT|UUU|QQQ|VVV|WWW|XXX|YYY|ZZZ', passw):
         w+=3
     if alltime<=29:
