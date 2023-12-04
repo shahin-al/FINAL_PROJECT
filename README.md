@@ -1,1 +1,1 @@
-# chess
+# chess and brute force cracker:)
