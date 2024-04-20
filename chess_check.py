@@ -10,6 +10,7 @@ board = [   ['\033[35;1m  ','\u0332A','\u0332B','\u0332C','\u0332D','\u0332E','\
             ['\033[34;1m  ','\u0305A','\u0305B','\u0305C','\u0305D','\u0305E','\u0305F','\u0305G','\u0305H\033[0m']]
 
 # board[row][column]
+# i added a comment to practice git
 
 coordinatesX={'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8}
 coordinatesY={1:8,2:7,3:6,4:5,5:4,6:3,7:2,8:1}
